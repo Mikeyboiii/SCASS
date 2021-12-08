@@ -1,3 +1,3 @@
-# Spectral Clustering for Audio Source Separation
+# Unsupervised Harmonic Sound Source Separation with Spectral Clustering 
 
-This is the repository for the Unsupervised Learning course's final project, done at Columbia University in Fall 2021.
+
