@@ -66,7 +66,6 @@ X = spectral_clustering(similarity_matrix)
 label = X.fit(k=4) #input k if you need
 visualize_with_time(A, freqs,settings, label)
 
-mask = recover(label, K, L, D.shape[0], args, [0])
-D_one_cluster = D * mask
-recon_audio = librosa.istft(D_one_cluster, win_length=WIN_LENGTH, hop_length=HOP_LENGTH)
+recon_audio = recover_music(D, args, label, settings, cluster_num=[0])
+
 

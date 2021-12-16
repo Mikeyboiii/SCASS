@@ -68,7 +68,18 @@ def to_bark_scale(f_matrix):
 
     return new_freqs
 
-def recover(lab, k, l, num_components, args, cluster_num):
+
+def recover_music(D, args, label, settings, cluster_num=[]):
+    K = settings['K']
+    L = settings['L']
+    WIN_LENGth = settings['WIN_LENGTH']
+    HOP_LENGTH = settings['HOP_LENGTH']
+    mask = recover_mask(label, K, L, D.shape[0], args, cluster_num) ##
+    D_one_cluster = D * mask
+    recon_audio = librosa.istft(D_one_cluster, win_length=WIN_LENGTH, hop_length=HOP_LENGTH)
+    return recon_audio
+
+def recover_mask(lab, k, l, num_components, args, cluster_num):
     #kl = lab.reshape(k, l).transpose(1,0)
     kl = lab.reshape(l,k)
     mask = np.zeros([num_components, k])
