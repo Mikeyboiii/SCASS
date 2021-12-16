@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import plotly.express as px
+import matplotlib.pyplot as plt
 
 def visualize_with_time(amplitudes, frequencies,settings, label=0, marker_size=2):
     #plot against amplitudes, frequencies and time
@@ -23,8 +24,10 @@ def visualize_with_time(amplitudes, frequencies,settings, label=0, marker_size=2
     fig.update_layout(scene_aspectmode='cube')
     fig.show()
 
-def visualize_feature(amplitudes, frequencies, phase_shift, K, L, label=0):
+def visualize_feature(amplitudes, frequencies, phase_shift, settings, label=0, marker_size=2):
     # visualize data points in amplitude, frequency, phase space
+    K = settings['K']
+    L = settings['L']
     v = np.zeros((K * L, 4))
     v[:, 0] = amplitudes.T.reshape(K * L) # amplitude axis
     v[:, 1] = frequencies.T.reshape(K * L) # frequency axis
@@ -34,7 +37,14 @@ def visualize_feature(amplitudes, frequencies, phase_shift, K, L, label=0):
     df = pd.DataFrame(v, columns=['Amplitude', 'Frequency', 'Phase Shift', 'Cluster'])
     fig = px.scatter_3d(df, x='Amplitude', y='Frequency', z='Phase Shift',
                       color='Cluster',color_continuous_scale="plasma")
-    fig.update_traces(marker=dict(size=2, line=dict(width=2)), selector=dict(mode='markers'))
+    fig.update_traces(marker=dict(size=marker_size, line=dict(width=2)), selector=dict(mode='markers'))
     fig.update_layout(margin=dict(l=0, r=0, b=0, t=0))
     fig.update_layout(scene_aspectmode='cube')
     fig.show()
+
+def visualize_label_heatmap(label, settings):
+    K = settings['K']
+    L = settings['L']
+    label_kl = label.reshape(K, L).T
+    fig = plt.figure(figsize=(50,50))
+    plt.imshow(label_kl)
